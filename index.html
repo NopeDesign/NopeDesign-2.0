@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOPE | Agência Digital</title>
+
+    <!-- Fontes do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- IMPORTANTE: Puxe os CSSs todos aqui no Index para evitar que o site pisque sem estilo -->
+    <link rel="stylesheet" href="topo/style.css">
+    <link rel="stylesheet" href="inicio/style.css">
+    <!-- <link rel="stylesheet" href="cards/style.css"> -->
+</head>
+<body>
+
+    <!-- Os "recipientes" onde o JS vai jogar o conteúdo dos outros arquivos -->
+    <div id="topo"></div>
+    <div id="meio"></div>
+    <div id="cards"></div>
+    <div id="footer"></div>
+
+    <!-- ==========================================
+         SCRIPT DE INCLUDES (Carrega os arquivos)
+    =========================================== -->
+    <script>
+        // Função assíncrona que busca o arquivo e joga na div certa
+        async function carregarComponente(idElemento, caminhoArquivo) {
+            try {
+                const response = await fetch(caminhoArquivo);
+                if (response.ok) {
+                    const html = await response.text();
+                    document.getElementById(idElemento).innerHTML = html;
+                } else {
+                    console.error('Erro ao carregar componente:', caminhoArquivo);
+                }
+            } catch (error) {
+                console.error('Erro de requisição:', error);
+            }
+        }
+
+        // Função principal que roda assim que o site abre
+        async function iniciarSite() {
+            // 1. Carrega os pedaços do site em ordem
+            // ATENÇÃO: Os caminhos precisam bater exatamente com as suas pastas!
+            await carregarComponente('topo', 'topo/top.html');
+            await carregarComponente('meio', 'inicio/inicio.html');
+            
+            // Quando tiver os outros, é só descomentar:
+            // await carregarComponente('cards', 'cards/cards.html');
+            // await carregarComponente('footer', 'footer/footer.html');
+
+            // ==========================================
+            // 2. ATIVA O MENU MOBILE
+            // (Tem que rodar DEPOIS que o topo foi carregado na tela)
+            // ==========================================
+            const hamburger = document.getElementById('hamburger');
+            const mainNav = document.getElementById('main-nav');
+            const btnOrcamento = document.getElementById('btn-orcamento');
+
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    mainNav.classList.toggle('active');
+                    btnOrcamento.classList.toggle('active');
+                });
+            }
+        }
+
+        // Dá o gatilho para a função começar a trabalhar
+        iniciarSite();
+    </script>
+</body>
+</html>
