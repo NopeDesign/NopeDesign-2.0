@@ -1,76 +1,240 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOPE | Agência Digital</title>
+    <title>NOpe Design - Landing Page</title>
+    
+    <style>
+        /* ==========================================
+           RESET E ESTILOS GERAIS
+        ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    <!-- Fontes do Google -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+        body {
+            background-color: #f2efe9; 
+        }
 
-    <!-- IMPORTANTE: Puxe os CSSs todos aqui no Index para evitar que o site pisque sem estilo -->
-    <link rel="stylesheet" href="topo/style.css">
-    <link rel="stylesheet" href="inicio/style.css">
-    <!-- <link rel="stylesheet" href="cards/style.css"> -->
+        /* ==========================================
+           HEADER / TOPO (DESKTOP)
+        ========================================== */
+        header {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 5%;
+            min-height: 300px;
+            
+            /* Ajuste o caminho da textura conforme sua pasta */
+            background-image: url('/src/textura_topo.svg'); 
+            background-size: cover;
+            background-position: center 0%; 
+        }
+
+        /* ==========================================
+           LOGO (DESKTOP)
+        ========================================== */
+        .logo {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .logo img {
+            max-height: 200px; 
+            width: auto;
+            
+            /* PAINEL DE CONTROLE PARA MOVER A LOGO NO COMPUTADOR */
+            
+            /* Vertical (Cima / Baixo) */
+            margin-top: -130px; /* Números positivos empurram para BAIXO. Números negativos (ex: -20px) puxam para CIMA */
+            
+            /* Horizontal (Esquerda / Direita) */
+            margin-left: -60px; /* Números positivos empurram para a DIREITA. Números negativos puxam para a ESQUERDA */
+        }
+
+        .logo-placeholder {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* ==========================================
+           NAVEGAÇÃO (MENU DESKTOP)
+        ========================================== */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px; /* DISTÂNCIA ENTRE OS LINKS: Aumente (ex: 50px) para separar mais um link do outro */
+            
+            /* PAINEL DE CONTROLE PARA MOVER O MENU TODO */
+            
+            /* Vertical (Cima / Baixo) */
+            margin-top: -90px; /* Números positivos descem o menu. Números negativos (ex: -15px) sobem o menu */
+            
+            /* Horizontal (Esquerda / Direita) */
+            margin-left: 10px; /* Empurra o menu para a esquerda. (Use margin-left se quiser empurrar para a direita) */
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            
+            /* TAMANHO DA LETRA DO MENU */
+            font-size: 30px; /* Aumente esse número (ex: 18px, 20px) para deixar os textos maiores */
+            
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: opacity 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.7;
+        }
+
+        /* ==========================================
+           BOTÃO DE ORÇAMENTO
+        ========================================== */
+        .btn-orcamento {
+            border: none;
+            background-image: url('/src/textura_botao.svg');
+            background-color: transparent;
+            
+            /* Força a imagem a preencher 100% do botão sem cortar */
+            background-size: 100% auto; 
+            background-position: center; 
+            background-repeat: no-repeat;
+            
+            /* CENTRALIZADOR DE TEXTO (A Mágica) */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            /* CONTROLE DO TEXTO */
+            color: #ffffff;
+            font-size: 18px; /* Letra menor e mais elegante */
+            font-weight: 600; 
+            letter-spacing: 0.5px; 
+            
+            /* TAMANHO E RESPIRO DO BOTÃO */
+            padding: 16px 45px; /* Aumentei o respiro nas laterais (45px) para não encostar na borda do desenho */
+            border-radius: 40px; 
+            
+            /* POSIÇÃO NO TOPO */
+            margin-top: -130px; 
+            margin-left: 0px; 
+            
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* ==========================================
+           ÍCONE HAMBÚRGUER (Oculto no Desktop)
+        ========================================== */
+        .menu-toggle {
+            display: none;
+            color: #ffffff;
+            font-size: 28px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* ==========================================
+           RESPONSIVIDADE (MOBILE - Telas até 768px)
+        ========================================== */
+        @media (max-width: 768px) {
+            
+            /* PAINEL DE CONTROLE PARA MOVER A LOGO SÓ NO CELULAR */
+            .logo img {
+                margin-top: -35px; /* Mexa aqui para subir ou descer no celular */
+                margin-left: 0px; /* Mexa aqui para ir para direita ou esquerda no celular */
+                max-height: 100px; /* Ajuste o tamanho da logo no celular se precisar */
+            }
+
+            header {
+                min-height: 450px; /* Reduz a altura do topo no celular */
+                flex-wrap: wrap;   /* Permite que o menu quebre para a linha de baixo */
+                padding: 20px 5%;
+                align-items: flex-start;
+            }
+
+            .menu-toggle {
+                display: block; /* Mostra o ícone de três listras */
+                margin-top: -10px;
+            }
+
+            .btn-orcamento {
+                display: none; /* Esconde o botão do topo (pode ser colocado dentro do menu depois) */
+            }
+
+            nav {
+                display: none; /* Esconde os links por padrão no mobile */
+                width: 100%;
+                margin-top: 20px;
+            }
+
+            /* Classe que o JavaScript vai ativar para mostrar o menu */
+            nav.ativo {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column; /* Coloca um link embaixo do outro */
+                background-color: rgba(26, 111, 156, 0.95); /* Fundo azul semi-transparente */
+                padding: 20px;
+                border-radius: 8px;
+                gap: 15px;
+                text-align: center;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Os "recipientes" onde o JS vai jogar o conteúdo dos outros arquivos -->
-    <div id="topo"></div>
-    <div id="meio"></div>
-    <div id="cards"></div>
-    <div id="footer"></div>
+    <!-- TOPO DA PÁGINA -->
+    <header id="topo">
+        
+        <!-- LOGO -->
+        <div class="logo">
+            <!-- 👇 AQUI ESTÁ A PARTE DA LOGO QUE FOI ALTERADA 👇 -->
+            <img src="/src/logo_topo.svg" alt="NOpe Design">
+        </div>
 
-    <!-- ==========================================
-         SCRIPT DE INCLUDES (Carrega os arquivos)
-    =========================================== -->
+        <!-- ÍCONE DO MENU MOBILE (☰) -->
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+        <!-- MENU DE NAVEGAÇÃO -->
+        <nav id="menu-principal">
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#quem-somos">Quem Somos</a></li>
+                <li><a href="#projetos">Projetos</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+            </ul>
+        </nav>
+
+        <!-- BOTÃO CTA -->
+        <button class="btn-orcamento">Solicite orçamento</button>
+
+    </header>
+
+    <!-- SCRIPT PARA O MENU MOBILE FUNCIONAR -->
     <script>
-        // Função assíncrona que busca o arquivo e joga na div certa
-        async function carregarComponente(idElemento, caminhoArquivo) {
-            try {
-                const response = await fetch(caminhoArquivo);
-                if (response.ok) {
-                    const html = await response.text();
-                    document.getElementById(idElemento).innerHTML = html;
-                } else {
-                    console.error('Erro ao carregar componente:', caminhoArquivo);
-                }
-            } catch (error) {
-                console.error('Erro de requisição:', error);
-            }
-        }
-
-        // Função principal que roda assim que o site abre
-        async function iniciarSite() {
-            // 1. Carrega os pedaços do site em ordem
-            // ATENÇÃO: Os caminhos precisam bater exatamente com as suas pastas!
-            await carregarComponente('topo', 'topo/top.html');
-            await carregarComponente('meio', 'inicio/inicio.html');
+        function toggleMenu() {
+            // Pega o elemento nav pelo ID
+            const menu = document.getElementById('menu-principal');
             
-            // Quando tiver os outros, é só descomentar:
-            // await carregarComponente('cards', 'cards/cards.html');
-            // await carregarComponente('footer', 'footer/footer.html');
-
-            // ==========================================
-            // 2. ATIVA O MENU MOBILE
-            // (Tem que rodar DEPOIS que o topo foi carregado na tela)
-            // ==========================================
-            const hamburger = document.getElementById('hamburger');
-            const mainNav = document.getElementById('main-nav');
-            const btnOrcamento = document.getElementById('btn-orcamento');
-
-            if (hamburger) {
-                hamburger.addEventListener('click', () => {
-                    hamburger.classList.toggle('active');
-                    mainNav.classList.toggle('active');
-                    btnOrcamento.classList.toggle('active');
-                });
-            }
+            // Adiciona ou remove a classe 'ativo' que exibe o menu no CSS
+            menu.classList.toggle('ativo');
         }
-
-        // Dá o gatilho para a função começar a trabalhar
-        iniciarSite();
     </script>
 </body>
 </html>
