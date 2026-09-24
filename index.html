@@ -40,32 +40,30 @@
             overflow-x: hidden; 
         }
 
-        /* Envolve o Cabeçalho + Logo Gigante para garantir que ocupem a primeira tela inteira */
         .primeira-tela {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             background-color: #f2efe9;
-            /* Calço invisível para compensar o topo que agora flutua */
             padding-top: 300px; 
         }
 
         /* ==========================================
-           HEADER / TOPO (AGORA FIXO)
+           HEADER / TOPO
         ========================================== */
         header {
-            position: fixed; /* MUDOU AQUI: Faz o topo flutuar na tela */
+            position: absolute; 
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 1000; /* MUDOU AQUI: Garante que ele fique por cima de tudo na rolagem */
+            z-index: 1000; 
             
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 30px 5%;
             min-height: 300px;
-            background-image: url('/src/textura_topo.svg'); 
+            background-image: url('src/textura_topo.svg'); 
             background-size: cover;
             background-position: center 0%; 
             opacity: 0;
@@ -108,7 +106,7 @@
 
         .btn-orcamento {
             border: none;
-            background-image: url('/src/textura_botao.svg');
+            background-image: url('src/textura_botao.svg');
             background-color: transparent;
             background-size: 100% auto; 
             background-position: center; 
@@ -138,7 +136,7 @@
 
         @media (max-width: 768px) {
             .primeira-tela {
-                padding-top: 450px; /* Calço maior no mobile, já que o topo fica mais alto */
+                padding-top: 450px; 
             }
             .logo img {
                 margin-top: -35px; 
@@ -221,11 +219,11 @@
         }
 
         /* ==========================================
-           NOVA SEÇÃO: QUEM SOMOS
+           SEÇÃO: QUEM SOMOS
         ========================================== */
         .quem-somos-section {
             width: 100%;
-            padding: 80px 10% 120px 10%;
+            padding: 40px 5% 150px 5%; 
             background: linear-gradient(to bottom, #327798 0%, #327798 60%, #ffffff 100%);
             display: flex;
             flex-direction: column;
@@ -234,12 +232,14 @@
 
         .quem-somos-titulo {
             color: #ffffff;
-            font-size: 3.5rem;
+            font-size: 5rem;
             font-weight: 700;
-            margin-bottom: 80px;
+            margin-top: -50px; 
+            margin-bottom: 50px;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
             text-align: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            letter-spacing: 2px;
         }
 
         .destaque-titulo {
@@ -250,10 +250,10 @@
         .destaque-titulo::after {
             content: '';
             position: absolute;
-            bottom: -15px;
-            left: -5%;
-            width: 110%;
-            height: 12px;
+            bottom: -10px; 
+            left: 0%;
+            width: 100%;
+            height: 15px; 
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10'%3E%3Cpath d='M2,6 C40,9 100,2 198,6' fill='none' stroke='%231a1a1a' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M10,8 C50,11 150,4 190,8' fill='none' stroke='%231a1a1a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
             background-size: 100% 100%;
             background-repeat: no-repeat;
@@ -262,44 +262,422 @@
         .quem-somos-conteudo {
             display: flex;
             width: 100%;
-            max-width: 1200px;
-            align-items: center;
-            justify-content: space-between;
-            gap: 60px;
+            max-width: 1500px; 
+            align-items: center; 
+            justify-content: center;
+            gap: 20px; 
         }
 
         .quem-somos-imagem {
-            flex: 1;
+            flex: 1; 
             display: flex;
-            justify-content: center;
+            justify-content: flex-start; 
             position: relative;
         }
 
         .quem-somos-imagem img {
             width: 100%;
-            max-width: 450px;
+            max-width: 800px; 
             height: auto;
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+            margin-top: -80px; 
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
         }
 
         .quem-somos-texto {
-            flex: 1.2; 
+            flex: 1;  
             color: #ffffff;
-            font-size: 1.35rem;
-            line-height: 1.6;
+            font-size: 2.2rem; 
+            line-height: 1.5;
+            padding-right: 20px; 
+            margin-top: 0px;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
+             .quem-somos-titulo { font-size: 3.5rem; }
+             .quem-somos-texto { font-size: 1.5rem; }
+             .quem-somos-imagem img { max-width: 500px; }
+        }
+
+        @media (max-width: 768px) {
             .quem-somos-conteudo {
                 flex-direction: column;
                 text-align: center;
             }
             .quem-somos-titulo {
                 font-size: 2.5rem;
+                margin-bottom: 30px;
+            }
+            .quem-somos-imagem {
+                justify-content: center; 
+                margin-left: 0;
+            }
+            .quem-somos-texto {
+                font-size: 1.2rem;
+                padding-right: 0;
             }
         }
+
+        /* ==========================================
+           SEÇÃO: PROJETOS 
+        ========================================== */
+        .projetos-section {
+            width: 100%;
+            padding: 100px 5%;
+            background: linear-gradient(to bottom, #ffffff 80%, #d4e8f2 100%);
+            overflow: hidden; 
+        }
+
+        .projetos-conteudo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1500px;
+            margin: 0 auto;
+            gap: 50px;
+        }
+
+        .carrosseis-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 40px; 
+            overflow: hidden;
+        }
+
+        .carousel-row {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .cliente-logo {
+            width: 140px;
+            height: 140px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background-color: #ffffff; 
+        }
+
+        .cliente-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            padding: 10px; 
+        }
+
+        .carousel-viewport {
+            overflow: hidden;
+            flex: 1;
+            position: relative;
+            padding: 15px 0; 
+        }
+
+        .carousel-viewport::before,
+        .carousel-viewport::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 60px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .carousel-viewport::before {
+            left: 0;
+            background: linear-gradient(to right, #ffffff, transparent);
+        }
+        .carousel-viewport::after {
+            right: 0;
+            background: linear-gradient(to left, #ffffff, transparent);
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 25px;
+            width: max-content;
+            animation: deslizarEsquerda 25s linear infinite; 
+        }
+
+        .carousel-track.dir-inversa {
+            animation: deslizarEsquerda 30s linear infinite;
+        }
+
+        .carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        .carousel-track img {
+            width: 200px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            background-color: #f8f8f8; 
+        }
+
+        .carousel-track img:hover {
+            transform: scale(1.05); 
+        }
+
+        .projetos-titulo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .titulo-vertical {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            color: #3e5b99; 
+            font-size: 7rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            margin: 0;
+        }
+
+        @keyframes deslizarEsquerda {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - 12.5px)); }
+        }
+
+        @media (max-width: 1024px) {
+            .projetos-conteudo { flex-direction: column-reverse; gap: 30px; }
+            .titulo-vertical {
+                writing-mode: horizontal-tb;
+                transform: none;
+                font-size: 4rem;
+                text-align: center;
+            }
+            .carousel-viewport::before, .carousel-viewport::after { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .carousel-row { flex-direction: column; align-items: center; text-align: center; gap: 15px; }
+            .cliente-logo { width: 100px; height: 100px; }
+            .carousel-track img { width: 150px; height: 190px; }
+        }
+
+        /* ==========================================
+           NOVA SEÇÃO: SERVIÇOS
+        ========================================== */
+        .servicos-section {
+            width: 100%;
+            padding: 100px 5% 150px 5%;
+            background: linear-gradient(to bottom, #d4e8f2 0%, #116b97 10%, #116b97 100%);
+            display: flex;
+            justify-content: center;
+        }
+
+        .servicos-conteudo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1500px;
+            width: 100%;
+            gap: 50px;
+        }
+
+        /* Grelha dos 8 serviços */
+        .servicos-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 50px 30px;
+            flex: 1;
+        }
+
+        .servico-item {
+            text-align: center;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Fundo em degradê com cantos arredondados */
+        .servico-icone {
+            width: 150px;
+            height: 150px;
+            border-radius: 40px;
+            background: linear-gradient(to bottom, #e4f3fa 0%, #76b7d7 100%);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+            transition: transform 0.3s ease;
+        }
+
+        .servico-item:hover .servico-icone {
+            transform: translateY(-10px);
+        }
+
+        .servico-icone img {
+            width: 100px; 
+            height: 100px; 
+            object-fit: contain;
+        }
+
+        .servico-item p {
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        /* Título Branco Vertical */
+        .titulo-vertical-branco {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            color: #ffffff;
+            font-size: 7rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            margin: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .servicos-conteudo { flex-direction: column-reverse; gap: 40px; }
+            .servicos-grid { grid-template-columns: repeat(2, 1fr); width: 100%; }
+            .titulo-vertical-branco {
+                writing-mode: horizontal-tb;
+                transform: none;
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .servicos-grid { gap: 30px 15px; }
+            .servico-icone { width: 110px; height: 110px; border-radius: 30px; }
+            .servico-icone img { width: 70px; height: 70px; } 
+            .servico-item p { font-size: 1.1rem; }
+        }
+
+        /* ==========================================
+           NOVA SEÇÃO: DEPOIMENTOS
+        ========================================== */
+        .depoimentos-section {
+            width: 100%;
+            padding: 100px 5% 150px 5%;
+            /* Fundo transita do azul escuro da seção acima para branco */
+            background: linear-gradient(to bottom, #116b97 0%, #a4d2e7 50%, #ffffff 100%);
+            display: flex;
+            justify-content: center;
+        }
+
+        .depoimentos-conteudo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1500px;
+            width: 100%;
+            gap: 50px;
+        }
+
+        .depoimentos-card-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding-top: 60px; /* Espaço para a foto sobreposta não ser cortada */
+        }
+
+        .depoimento-card {
+            background-color: #1a1a1a; /* Fundo preto/escuro do cartão */
+            width: 100%;
+            max-width: 550px;
+            border-radius: 30px;
+            padding: 80px 40px 60px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Foto circular sobreposta na borda superior */
+        .depoimento-foto {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #d4e8f2; 
+            position: absolute;
+            top: -60px; /* Metade para fora do cartão */
+            overflow: hidden;
+            background-color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .depoimento-foto img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Nome em formato de pílula (Pill) */
+        .depoimento-nome {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border: 2px solid #ffffff;
+            border-radius: 30px;
+            padding: 8px 50px;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* 5 Estrelas amarelas */
+        .depoimento-estrelas {
+            color: #ffb800; /* Amarelo/Laranja */
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            letter-spacing: 5px;
+        }
+
+        .depoimento-texto {
+            color: #ffffff;
+            font-size: 1.5rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Título Escuro Vertical (Direita) */
+        .titulo-vertical-escuro {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            color: #1a1a1a;
+            font-size: 7rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            margin: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .depoimentos-conteudo { flex-direction: column-reverse; gap: 60px; }
+            .titulo-vertical-escuro {
+                writing-mode: horizontal-tb;
+                transform: none;
+                font-size: 4rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .depoimento-card { max-width: 90%; padding: 70px 20px 50px 20px; }
+            .depoimento-nome { font-size: 1.2rem; padding: 6px 30px; }
+            .depoimento-estrelas { font-size: 2rem; }
+            .depoimento-texto { font-size: 1.2rem; }
+        }
     </style>
+
 </head>
 <body>
 
@@ -307,7 +685,7 @@
         <!-- HEADER / TOPO -->
         <header id="topo">
             <div class="logo">
-                <img src="/src/logo_topo.svg" alt="NOpe Design">
+                <img src="src/logo_topo.svg" alt="NOpe Design">
             </div>
 
             <div class="menu-toggle" onclick="toggleMenu()">☰</div>
@@ -327,26 +705,181 @@
         <!-- ÁREA CENTRAL -->
         <section class="hero-section">
             <div class="logo-container">
-                <img src="/src/logo_central.svg" alt="Logo NOPe Design" class="logo-central"> 
+                <img src="src/logo_central.svg" alt="Logo NOPe Design" class="logo-central"> 
             </div>
         </section>
     </div>
 
-    <!-- NOVA SEÇÃO: A CARA DA NOPE DESIGN -->
+    <!-- SEÇÃO: A CARA DA NOPE DESIGN -->
     <section class="quem-somos-section" id="quem-somos">
         
         <h2 class="quem-somos-titulo">A Cara da <span class="destaque-titulo">Nope Design</span></h2>
         
         <div class="quem-somos-conteudo">
             <div class="quem-somos-imagem">
-                <img src="/src/luara.svg" alt="Criadora da Nope Design">
+                <img src="src/luara.svg" alt="Criadora da Nope Design">
             </div>
             
             <div class="quem-somos-texto">
-                <p>A Nope Design é um projeto criado por uma mulher apaixonada por comunicação e marketing digital. Fundada em setembro de 2025, a empresa nasceu com o propósito de ajudar pessoas e empresas a se posicionarem melhor no digital. Mesmo sendo recente, já conta com diversos projetos desenvolvidos e segue crescendo com criatividade e estratégia.</p>
+                <p>A Nope Design é um projeto criado por uma mulher apaixonada por comunicação e marketing digital. Fundada em 2024, a empresa nasceu com o propósito de ajudar pessoas e empresas a se posicionarem melhor no digital. Mesmo sendo recente, já conta com diversos projetos desenvolvidos e segue crescendo com criatividade e estratégia.</p>
             </div>
         </div>
 
+    </section>
+
+    <!-- SEÇÃO: PROJETOS -->
+    <section class="projetos-section" id="projetos">
+        <div class="projetos-conteudo">
+            
+            <!-- Coluna Esquerda: Linhas de Clientes -->
+            <div class="carrosseis-container">
+
+                <!-- CLIENTE 1: BVPINHO -->
+                <div class="carousel-row">
+                    <div class="cliente-logo">
+                        <img src="src/logo_bvpinho.svg" alt="BV Pinho">
+                    </div>
+                    <div class="carousel-viewport">
+                        <div class="carousel-track" id="track-bvpinho">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CLIENTE 2: BRAND SEGUROS -->
+                <div class="carousel-row">
+                    <div class="cliente-logo">
+                        <img src="src/logo_brandseguros.svg" alt="Brand Seguros">
+                    </div>
+                    <div class="carousel-viewport">
+                        <div class="carousel-track dir-inversa" id="track-brand">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CLIENTE 3: DC THEODORO -->
+                <div class="carousel-row">
+                    <div class="cliente-logo">
+                        <img src="src/logo_dctheodoro.svg" alt="DC Theodoro">
+                    </div>
+                    <div class="carousel-viewport">
+                        <div class="carousel-track" id="track-dctheodoro">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Coluna Direita: Título Gigante -->
+            <div class="projetos-titulo-container">
+                <h2 class="titulo-vertical">PROJETOS</h2>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SEÇÃO: SERVIÇOS -->
+    <section class="servicos-section" id="servicos">
+        <div class="servicos-conteudo">
+            
+            <!-- Grelha de Serviços -->
+            <div class="servicos-grid">
+                
+                <div class="servico-item">
+                    <div class="servico-icone">
+                        <img src="/src/redes_sociais.svg" alt="Ícone Redes Sociais">
+                    </div>
+                    <p>Gerenciamento<br>de Redes Sociais</p>
+                </div>
+
+                <div class="servico-item">
+                    <div class="servico-icone">
+                        <img src="/src/leads.svg" alt="Ícone Leads">
+                    </div>
+                    <p>Captação<br>de Leads</p>
+                </div>
+
+                <div class="servico-item">
+                    <div class="servico-icone">
+                        <img src="/src/video.svg" alt="Ícone Vídeo">
+                    </div>
+                    <p>Captação<br>de vídeo</p>
+                </div>
+
+                <div class="servico-item">
+                    <div class="servico-icone">
+                        <img src="/src/fotos.svg" alt="Ícone Fotos">
+                    </div>
+                    <p>Captação<br>de Fotos</p>
+                </div>
+
+                <div class="servico-item">
+                    <div class="servico-icone">
+                        <img src="/src/logoicon.svg" alt="Ícone Logomarca">
+                    </div>
+                    <p>Criação de<br>Logomarca</p>
+                </div>
+
+                <div class="servico-item">
+                    <div class="servico-icone">
+                        <img src="/src/site.svg" alt="Ícone Site">
+                    </div>
+                    <p>Criação de Site</p>
+                </div>
+
+                <div class="servico-item">
+                    <div class="servico-icone">
+                        <img src="/src/posts.svg" alt="Ícone Posts">
+                    </div>
+                    <p>Posts Avulsos</p>
+                </div>
+
+                <div class="servico-item">
+                    <div class="servico-icone">
+                        <img src="/src/edivideos.svg" alt="Ícone Edição">
+                    </div>
+                    <p>Edição de vídeos</p>
+                </div>
+
+            </div>
+
+            <!-- Título Lateral Branco -->
+            <div class="projetos-titulo-container">
+                <h2 class="titulo-vertical-branco">SERVIÇOS</h2>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NOVA SEÇÃO: DEPOIMENTOS -->
+    <section class="depoimentos-section" id="depoimentos">
+        <div class="depoimentos-conteudo">
+            
+            <!-- Cartão do Depoimento -->
+            <div class="depoimentos-card-container">
+                <div class="depoimento-card">
+                    
+                    <div class="depoimento-foto">
+                        <!-- Coloque o caminho correto da foto da Flávia aqui -->
+                        <img src="src/foto_flavia.jpg" alt="Foto Flávia">
+                    </div>
+                    
+                    <div class="depoimento-nome">FLÁVIA</div>
+                    
+                    <div class="depoimento-estrelas">
+                        ★★★★★
+                    </div>
+                    
+                    <p class="depoimento-texto">Adorei a experiência!</p>
+                    
+                </div>
+            </div>
+            
+            <!-- Título Lateral Escuro -->
+            <div class="projetos-titulo-container">
+                <h2 class="titulo-vertical-escuro">DEPOIMENTOS</h2>
+            </div>
+
+        </div>
     </section>
 
     <script>
@@ -354,6 +887,51 @@
             const menu = document.getElementById('menu-principal');
             menu.classList.toggle('ativo');
         }
+
+        // ==========================================
+        // GERADOR DE CARROSSEL ALEATÓRIO OTIMIZADO
+        // ==========================================
+        function carregarCarrosselAleatorio(idElemento, caminhoPasta, totalImagensNaPasta) {
+            let track = document.getElementById(idElemento);
+            if (!track) return;
+
+            let imagensNoCarrossel = 10;
+            if (totalImagensNaPasta < imagensNoCarrossel) {
+                imagensNoCarrossel = totalImagensNaPasta;
+            }
+
+            let numeros = [];
+            for (let i = 1; i <= totalImagensNaPasta; i++) {
+                numeros.push(i);
+            }
+
+            numeros.sort(() => Math.random() - 0.5);
+
+            const escolhidas = numeros.slice(0, imagensNoCarrossel);
+            let imagensHTML = '';
+
+            escolhidas.forEach(num => {
+                imagensHTML += `<img src="${caminhoPasta}/${num}.svg" alt="Arte ${num}" loading="lazy">`;
+            });
+
+            track.innerHTML = imagensHTML + imagensHTML;
+        }
+
+        // ==========================================
+        // INICIAR OS CARROSSEIS
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // BRAND SEGUROS - 10 imagens
+            carregarCarrosselAleatorio('track-brand', 'src/brandseguros', 10);
+            
+            // BV PINHO - 10 imagens
+            carregarCarrosselAleatorio('track-bvpinho', 'src/bvpinho', 10); 
+            
+            // DC THEODORO - 10 imagens
+            carregarCarrosselAleatorio('track-dctheodoro', 'src/dctheodoro', 10);
+            
+        });
     </script>
 </body>
 </html>
