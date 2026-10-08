@@ -5,9 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NOpe Design - Landing Page</title>
     
+    <!-- Pré-carregamento das texturas e imagens críticas para evitar lentidão no início -->
+    <link rel="preload" href="src/textura_topo.svg" as="image">
+    <link rel="preload" href="src/logo_central.svg" as="image">
+    <link rel="preload" href="src/textura_botao.svg" as="image">
+
     <style>
         /* ==========================================
-           ANIMAÇÕES 
+           COMPORTAMENTO GERAL E OTIMIZAÇÃO
+        ========================================== */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Rolagem suave ao clicar no menu */
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff; 
+        }
+
+        /* ==========================================
+           CLASSES DE ANIMAÇÃO NO SCROLL (REVEAL)
+        ========================================== */
+        .revelar {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .revelar-esq {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .revelar-dir {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .revelar.ativo, .revelar-esq.ativo, .revelar-dir.ativo {
+            opacity: 1;
+            transform: translate(0);
+        }
+
+        /* ==========================================
+           ANIMAÇÕES DE KEYFRAMES
         ========================================== */
         @keyframes descerTopo {
             from { opacity: 0; transform: translateY(-30px); }
@@ -20,26 +74,19 @@
         }
 
         @keyframes respiracao {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.025); } 
-            100% { transform: scale(1); }
+            0% { transform: scale(1) translateZ(0); }
+            50% { transform: scale(1.025) translateZ(0); } 
+            100% { transform: scale(1) translateZ(0); }
+        }
+
+        @keyframes deslizarEsquerda {
+            0% { transform: translateX(0) translateZ(0); }
+            100% { transform: translateX(calc(-50% - 12.5px)) translateZ(0); }
         }
 
         /* ==========================================
-           RESET E ESTILOS GERAIS
+           PRIMEIRA TELA E HEADER
         ========================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #ffffff; 
-            overflow-x: hidden; 
-        }
-
         .primeira-tela {
             display: flex;
             flex-direction: column;
@@ -48,16 +95,12 @@
             padding-top: 300px; 
         }
 
-        /* ==========================================
-           HEADER / TOPO
-        ========================================== */
         header {
             position: absolute; 
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000; 
-            
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -68,6 +111,7 @@
             background-position: center 0%; 
             opacity: 0;
             animation: descerTopo 1s ease-out forwards;
+            will-change: transform, opacity; /* Otimização GPU */
         }
 
         .logo {
@@ -125,6 +169,10 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
+        
+        .btn-orcamento:hover {
+            transform: scale(1.05);
+        }
 
         .menu-toggle {
             display: none;
@@ -132,47 +180,6 @@
             font-size: 28px;
             cursor: pointer;
             user-select: none;
-        }
-
-        @media (max-width: 768px) {
-            .primeira-tela {
-                padding-top: 450px; 
-            }
-            .logo img {
-                margin-top: -35px; 
-                margin-left: 0px; 
-                max-height: 100px; 
-            }
-            header {
-                min-height: 450px; 
-                flex-wrap: wrap;   
-                padding: 20px 5%;
-                align-items: flex-start;
-            }
-            .menu-toggle {
-                display: block; 
-                margin-top: -10px;
-            }
-            .btn-orcamento {
-                display: none; 
-            }
-            nav {
-                display: none; 
-                width: 100%;
-                margin-top: 20px;
-            }
-            nav.ativo {
-                display: block;
-            }
-            nav ul {
-                flex-direction: column; 
-                background-color: rgba(26, 111, 156, 0.95); 
-                padding: 20px;
-                border-radius: 8px;
-                gap: 15px;
-                text-align: center;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            }
         }
 
         /* ==========================================
@@ -185,13 +192,7 @@
             flex-direction: column;
             justify-content: center; 
             align-items: center;     
-            background: linear-gradient(
-                to bottom, 
-                #f2efe9 0%,      
-                #efebe4 45%,     
-                #9dbfd0 65%,     
-                #327798 100%     
-            );
+            background: linear-gradient(to bottom, #f2efe9 0%, #efebe4 45%, #9dbfd0 65%, #327798 100%);
         }
 
         .logo-container {
@@ -199,23 +200,87 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+            width: 100%;
             opacity: 0;
             animation: subirMeio 1.2s ease-out 0.3s forwards;
+            will-change: transform, opacity;
         }
 
         .logo-central {
             width: 900px; 
+            max-width: 100%;
             margin-top: -250px; 
             margin-bottom: 15px; 
             animation: respiracao 4s ease-in-out infinite;
+            will-change: transform;
         }
 
-        .slogan {
-            color: #2b2b2b;
-            font-size: 1.3rem;
-            font-weight: 700;
-            letter-spacing: 2.5px; 
-            font-family: 'Courier New', Courier, monospace;
+        @media (max-width: 768px) {
+            .logo-central {
+                width: 90%; 
+                max-width: 600px; 
+                
+                /* ============================================================
+                   👇👇 AJUSTE DA LOGO CENTRAL NO CELULAR 👇👇 
+                   Mude o valor de 'margin-top' abaixo:
+                   -> Aumente o número negativo (ex: -120px) para SUBIR mais a logo.
+                   -> Diminua o número negativo (ex: -30px ou 0px) para DESCER mais a logo.
+                ============================================================ */
+                margin-top: -450px; 
+                /* ============================================================ */
+            }
+            .primeira-tela { padding-top: 450px; }
+            .logo img { margin-top: -35px; margin-left: 0px; max-height: 100px; }
+            header { min-height: 450px; flex-wrap: wrap; padding: 20px 5%; align-items: flex-start; }
+            .menu-toggle { display: block; margin-top: -10px; }
+            .btn-orcamento { display: none; }
+            nav { display: none; width: 100%; margin-top: 20px; }
+            nav.ativo { display: block; }
+            nav ul {
+                flex-direction: column; 
+                background-color: rgba(26, 111, 156, 0.95); 
+                padding: 20px; border-radius: 8px; gap: 15px;
+                text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+        }
+
+        /* ==========================================
+           TÍTULOS VERTICAIS GLOBAIS (AJUSTE MOBILE)
+        ========================================== */
+        .titulo-vertical { color: #3e5b99; }
+        .titulo-vertical-branco { color: #ffffff; }
+        .titulo-vertical-escuro { color: #1a1a1a; }
+
+        .titulo-vertical, .titulo-vertical-branco, .titulo-vertical-escuro {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            font-size: 7rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            margin: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .titulo-vertical, .titulo-vertical-branco, .titulo-vertical-escuro {
+                writing-mode: horizontal-tb;
+                transform: none;
+                font-size: 3.5rem;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .projetos-titulo-container {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .titulo-vertical, .titulo-vertical-branco, .titulo-vertical-escuro {
+                font-size: 2.2rem; /* Impede o corte do texto no telemóvel */
+                letter-spacing: 2px;
+                margin-bottom: 20px;
+            }
         }
 
         /* ==========================================
@@ -228,6 +293,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow: hidden;
         }
 
         .quem-somos-titulo {
@@ -238,7 +304,6 @@
             margin-bottom: 50px;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
             text-align: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             letter-spacing: 2px;
         }
 
@@ -300,22 +365,10 @@
         }
 
         @media (max-width: 768px) {
-            .quem-somos-conteudo {
-                flex-direction: column;
-                text-align: center;
-            }
-            .quem-somos-titulo {
-                font-size: 2.5rem;
-                margin-bottom: 30px;
-            }
-            .quem-somos-imagem {
-                justify-content: center; 
-                margin-left: 0;
-            }
-            .quem-somos-texto {
-                font-size: 1.2rem;
-                padding-right: 0;
-            }
+            .quem-somos-conteudo { flex-direction: column; text-align: center; }
+            .quem-somos-titulo { font-size: 2.5rem; margin-bottom: 30px; }
+            .quem-somos-imagem { justify-content: center; margin-left: 0; }
+            .quem-somos-texto { font-size: 1.2rem; padding-right: 0; }
         }
 
         /* ==========================================
@@ -343,12 +396,14 @@
             flex-direction: column;
             gap: 40px; 
             overflow: hidden;
+            width: 100%;
         }
 
         .carousel-row {
             display: flex;
             align-items: center;
             gap: 30px;
+            width: 100%; 
         }
 
         .cliente-logo {
@@ -371,6 +426,7 @@
         .carousel-viewport {
             overflow: hidden;
             flex: 1;
+            width: 100%; 
             position: relative;
             padding: 15px 0; 
         }
@@ -399,10 +455,11 @@
             gap: 25px;
             width: max-content;
             animation: deslizarEsquerda 25s linear infinite; 
+            will-change: transform;
         }
 
         .carousel-track.dir-inversa {
-            animation: deslizarEsquerda 30s linear infinite;
+            animation: deslizarEsquerda 30s linear infinite reverse;
         }
 
         .carousel-track:hover {
@@ -421,7 +478,7 @@
         }
 
         .carousel-track img:hover {
-            transform: scale(1.05); 
+            transform: scale(1.05) translateZ(0); 
         }
 
         .projetos-titulo-container {
@@ -430,29 +487,13 @@
             align-items: center;
         }
 
-        .titulo-vertical {
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            transform: rotate(180deg);
-            color: #3e5b99; 
-            font-size: 7rem;
-            font-weight: 900;
-            letter-spacing: 5px;
-            margin: 0;
-        }
-
-        @keyframes deslizarEsquerda {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-50% - 12.5px)); }
-        }
-
         @media (max-width: 1024px) {
-            .projetos-conteudo { flex-direction: column-reverse; gap: 30px; }
-            .titulo-vertical {
-                writing-mode: horizontal-tb;
-                transform: none;
-                font-size: 4rem;
-                text-align: center;
+            .projetos-conteudo { 
+                flex-direction: column; 
+                gap: 30px; 
+            }
+            .projetos-conteudo > .projetos-titulo-container {
+                order: -1; /* Garante o título no topo */
             }
             .carousel-viewport::before, .carousel-viewport::after { display: none; }
         }
@@ -464,7 +505,7 @@
         }
 
         /* ==========================================
-           NOVA SEÇÃO: SERVIÇOS
+           SEÇÃO: SERVIÇOS
         ========================================== */
         .servicos-section {
             width: 100%;
@@ -472,6 +513,7 @@
             background: linear-gradient(to bottom, #d4e8f2 0%, #116b97 10%, #116b97 100%);
             display: flex;
             justify-content: center;
+            overflow: hidden;
         }
 
         .servicos-conteudo {
@@ -483,7 +525,6 @@
             gap: 50px;
         }
 
-        /* Grelha dos 8 serviços */
         .servicos-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -499,7 +540,6 @@
             align-items: center;
         }
 
-        /* Fundo em degradê com cantos arredondados */
         .servico-icone {
             width: 150px;
             height: 150px;
@@ -511,10 +551,11 @@
             align-items: center;
             box-shadow: 0 10px 20px rgba(0,0,0,0.25);
             transition: transform 0.3s ease;
+            will-change: transform;
         }
 
         .servico-item:hover .servico-icone {
-            transform: translateY(-10px);
+            transform: translateY(-10px) translateZ(0);
         }
 
         .servico-icone img {
@@ -531,26 +572,15 @@
             margin: 0;
         }
 
-        /* Título Branco Vertical */
-        .titulo-vertical-branco {
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            transform: rotate(180deg);
-            color: #ffffff;
-            font-size: 7rem;
-            font-weight: 900;
-            letter-spacing: 5px;
-            margin: 0;
-        }
-
         @media (max-width: 1024px) {
-            .servicos-conteudo { flex-direction: column-reverse; gap: 40px; }
-            .servicos-grid { grid-template-columns: repeat(2, 1fr); width: 100%; }
-            .titulo-vertical-branco {
-                writing-mode: horizontal-tb;
-                transform: none;
-                font-size: 4rem;
+            .servicos-conteudo { 
+                flex-direction: column; 
+                gap: 40px; 
             }
+            .servicos-conteudo > .projetos-titulo-container {
+                order: -1; /* Garante o título no topo */
+            }
+            .servicos-grid { grid-template-columns: repeat(2, 1fr); width: 100%; }
         }
 
         @media (max-width: 768px) {
@@ -561,57 +591,149 @@
         }
 
         /* ==========================================
-           NOVA SEÇÃO: DEPOIMENTOS
+           SEÇÃO: DEPOIMENTOS EM CARROSSEL
         ========================================== */
         .depoimentos-section {
             width: 100%;
             padding: 100px 5% 150px 5%;
-            /* Fundo transita do azul escuro da seção acima para branco */
             background: linear-gradient(to bottom, #116b97 0%, #a4d2e7 50%, #ffffff 100%);
             display: flex;
             justify-content: center;
+            overflow: hidden;
         }
 
         .depoimentos-conteudo {
             display: flex;
-            align-items: center;
+            align-items: center; 
             justify-content: space-between;
-            max-width: 1500px;
+            max-width: 1600px;
             width: 100%;
-            gap: 50px;
+            gap: 40px;
         }
 
-        .depoimentos-card-container {
-            flex: 1;
+        .depoimentos-coluna-form {
+            flex: 0 0 420px; 
+        }
+
+        .form-depoimento {
+            background-color: #ffffff;
+            border-radius: 30px;
+            padding: 40px;
+            width: 100%;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-depoimento h3 {
+            color: #1a1a1a;
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .form-depoimento input, 
+        .form-depoimento textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #d4e8f2;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-depoimento input:focus, 
+        .form-depoimento textarea:focus {
+            border-color: #327798;
+        }
+
+        .form-depoimento textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .input-estrelas-container {
             display: flex;
             justify-content: center;
-            padding-top: 60px; /* Espaço para a foto sobreposta não ser cortada */
+            gap: 10px;
+            font-size: 2.5rem;
+            color: #d4e8f2;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .input-estrelas-container span.ativa {
+            color: #ffb800;
+        }
+
+        .form-depoimento button {
+            background-color: #116b97;
+            color: #ffffff;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-depoimento button:hover {
+            background-color: #327798;
+            transform: translateY(-2px);
+        }
+
+        .depoimentos-coluna-carrossel {
+            flex: 1; 
+            display: flex;
+            gap: 30px;
+            overflow-x: auto; 
+            scroll-snap-type: x mandatory; 
+            padding: 80px 20px 40px 20px; 
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+            will-change: scroll-position;
+        }
+        .depoimentos-coluna-carrossel::-webkit-scrollbar {
+            display: none; 
         }
 
         .depoimento-card {
-            background-color: #1a1a1a; /* Fundo preto/escuro do cartão */
-            width: 100%;
-            max-width: 550px;
+            flex: 0 0 380px; 
+            scroll-snap-align: center; 
+            background-color: #1a1a1a; 
             border-radius: 30px;
-            padding: 80px 40px 60px 40px;
+            padding: 80px 30px 50px 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
             box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+        
+        .depoimento-card:hover {
+            transform: translateY(-10px);
         }
 
-        /* Foto circular sobreposta na borda superior */
         .depoimento-foto {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             border: 4px solid #d4e8f2; 
             position: absolute;
-            top: -60px; /* Metade para fora do cartão */
+            top: -50px; 
             overflow: hidden;
             background-color: #ffffff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .depoimento-foto img {
@@ -620,76 +742,204 @@
             object-fit: cover;
         }
 
-        /* Nome em formato de pílula (Pill) */
+        .depoimento-foto.sem-foto {
+            background: linear-gradient(to bottom, #76b7d7 0%, #116b97 100%);
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
         .depoimento-nome {
             color: #ffffff;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
             border: 2px solid #ffffff;
             border-radius: 30px;
-            padding: 8px 50px;
-            margin-bottom: 25px;
+            padding: 6px 40px;
+            margin-bottom: 20px;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
 
-        /* 5 Estrelas amarelas */
         .depoimento-estrelas {
-            color: #ffb800; /* Amarelo/Laranja */
-            font-size: 2.8rem;
-            margin-bottom: 30px;
+            color: #ffb800; 
+            font-size: 2.2rem;
+            margin-bottom: 20px;
             letter-spacing: 5px;
         }
 
         .depoimento-texto {
             color: #ffffff;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             text-align: center;
             font-weight: 500;
+            line-height: 1.4;
         }
 
-        /* Título Escuro Vertical (Direita) */
-        .titulo-vertical-escuro {
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            transform: rotate(180deg);
-            color: #1a1a1a;
-            font-size: 7rem;
-            font-weight: 900;
-            letter-spacing: 5px;
-            margin: 0;
-        }
+        @media (max-width: 1200px) {
+            .depoimentos-conteudo { 
+                flex-direction: column; /* Transforma o container numa coluna no mobile */
+                align-items: center; 
+                gap: 20px;
+            }
+            
+            /* FORÇA A ORDEM EXATA NO MOBILE */
+            .depoimentos-conteudo > .projetos-titulo-container {
+                order: 1; /* 1º Título DEPOIMENTOS no topo */
+                width: 100%;
+            }
+            .depoimentos-coluna-carrossel {
+                order: 2; /* 2º Cartões logo abaixo do título */
+                width: 100%;
+            }
+            .depoimentos-coluna-form {
+                order: 3; /* 3º Formulário por último, no fundo */
+                width: 100%;
+                max-width: 500px;
+                margin-top: 20px;
+            }
 
-        @media (max-width: 1024px) {
-            .depoimentos-conteudo { flex-direction: column-reverse; gap: 60px; }
             .titulo-vertical-escuro {
                 writing-mode: horizontal-tb;
                 transform: none;
                 font-size: 4rem;
+                width: 100%;
                 text-align: center;
+                margin-bottom: 0px;
             }
         }
 
         @media (max-width: 768px) {
-            .depoimento-card { max-width: 90%; padding: 70px 20px 50px 20px; }
-            .depoimento-nome { font-size: 1.2rem; padding: 6px 30px; }
-            .depoimento-estrelas { font-size: 2rem; }
-            .depoimento-texto { font-size: 1.2rem; }
+            .depoimentos-coluna-form { flex: auto; width: 100%; }
+            .depoimento-card { flex: 0 0 85%; }
+            .form-depoimento { padding: 30px 20px; }
+        }
+
+        /* ==========================================
+           RODAPÉ (FOOTER)
+        ========================================== */
+        .site-footer {
+            background-color: #ffffff;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-conteudo {
+            display: flex;
+            justify-content: space-between; 
+            align-items: flex-start;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 60px 20px 40px 20px;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .footer-coluna {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            width: 400px; 
+            margin-top: -120px;    
+            margin-left: 0px;   
+            margin-bottom: -100px; 
+            max-width: 100%;
+            align-self: center; 
+        }
+
+        .sociais-icons {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .sociais-icons svg {
+            width: 32px;
+            height: 32px;
+            fill: #1a1a1a;
+            cursor: pointer;
+            transition: transform 0.3s ease, fill 0.3s ease;
+        }
+
+        .sociais-icons svg:hover {
+            transform: scale(1.1);
+            fill: #327798;
+        }
+
+        .footer-coluna h4 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .footer-coluna p, .footer-coluna ul li a {
+            font-size: 1.3rem;
+            color: #333;
+            text-decoration: none;
+            margin-bottom: 10px;
+            line-height: 1.5;
+            transition: color 0.3s;
+        }
+        
+        .footer-coluna ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-coluna ul li a:hover {
+            color: #327798;
+            font-weight: 600;
+        }
+
+        .footer-mapa {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            border-top: 2px solid #e0e0e0; 
+            overflow: hidden;
+        }
+
+        .footer-mapa iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .footer-barra-azul {
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(90deg, #3bb3ff 0%, #4b6cb7 100%);
+        }
+
+        @media (max-width: 768px) {
+            .footer-conteudo {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
         }
     </style>
-
 </head>
 <body>
 
     <div class="primeira-tela">
-        <!-- HEADER / TOPO -->
         <header id="topo">
             <div class="logo">
                 <img src="src/logo_topo.svg" alt="NOpe Design">
             </div>
-
             <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-
             <nav id="menu-principal">
                 <ul>
                     <li><a href="#inicio">Inicio</a></li>
@@ -698,215 +948,229 @@
                     <li><a href="#servicos">Serviços</a></li>
                 </ul>
             </nav>
-
             <button class="btn-orcamento">Solicite orçamento</button>
         </header>
 
-        <!-- ÁREA CENTRAL -->
-        <section class="hero-section">
+        <section class="hero-section" id="inicio">
             <div class="logo-container">
                 <img src="src/logo_central.svg" alt="Logo NOPe Design" class="logo-central"> 
             </div>
         </section>
     </div>
 
-    <!-- SEÇÃO: A CARA DA NOPE DESIGN -->
     <section class="quem-somos-section" id="quem-somos">
-        
-        <h2 class="quem-somos-titulo">A Cara da <span class="destaque-titulo">Nope Design</span></h2>
-        
+        <h2 class="quem-somos-titulo revelar">A Cara da <span class="destaque-titulo">Nope Design</span></h2>
         <div class="quem-somos-conteudo">
-            <div class="quem-somos-imagem">
-                <img src="src/luara.svg" alt="Criadora da Nope Design">
+            <div class="quem-somos-imagem revelar-esq">
+                <img src="src/luara.svg" alt="Criadora da Nope Design" loading="lazy">
             </div>
-            
-            <div class="quem-somos-texto">
+            <div class="quem-somos-texto revelar-dir">
                 <p>A Nope Design é um projeto criado por uma mulher apaixonada por comunicação e marketing digital. Fundada em 2024, a empresa nasceu com o propósito de ajudar pessoas e empresas a se posicionarem melhor no digital. Mesmo sendo recente, já conta com diversos projetos desenvolvidos e segue crescendo com criatividade e estratégia.</p>
             </div>
         </div>
-
     </section>
 
-    <!-- SEÇÃO: PROJETOS -->
     <section class="projetos-section" id="projetos">
         <div class="projetos-conteudo">
-            
-            <!-- Coluna Esquerda: Linhas de Clientes -->
             <div class="carrosseis-container">
-
-                <!-- CLIENTE 1: BVPINHO -->
-                <div class="carousel-row">
-                    <div class="cliente-logo">
-                        <img src="src/logo_bvpinho.svg" alt="BV Pinho">
-                    </div>
-                    <div class="carousel-viewport">
-                        <div class="carousel-track" id="track-bvpinho">
-                        </div>
-                    </div>
+                <div class="carousel-row revelar">
+                    <div class="cliente-logo"><img src="src/logo_bvpinho.svg" alt="BV Pinho" loading="lazy"></div>
+                    <div class="carousel-viewport"><div class="carousel-track" id="track-bvpinho"></div></div>
                 </div>
-
-                <!-- CLIENTE 2: BRAND SEGUROS -->
-                <div class="carousel-row">
-                    <div class="cliente-logo">
-                        <img src="src/logo_brandseguros.svg" alt="Brand Seguros">
-                    </div>
-                    <div class="carousel-viewport">
-                        <div class="carousel-track dir-inversa" id="track-brand">
-                        </div>
-                    </div>
+                <div class="carousel-row revelar">
+                    <div class="cliente-logo"><img src="src/logo_brandseguros.svg" alt="Brand Seguros" loading="lazy"></div>
+                    <div class="carousel-viewport"><div class="carousel-track dir-inversa" id="track-brand"></div></div>
                 </div>
-
-                <!-- CLIENTE 3: DC THEODORO -->
-                <div class="carousel-row">
-                    <div class="cliente-logo">
-                        <img src="src/logo_dctheodoro.svg" alt="DC Theodoro">
-                    </div>
-                    <div class="carousel-viewport">
-                        <div class="carousel-track" id="track-dctheodoro">
-                        </div>
-                    </div>
+                <div class="carousel-row revelar">
+                    <div class="cliente-logo"><img src="src/logo_dctheodoro.svg" alt="DC Theodoro" loading="lazy"></div>
+                    <div class="carousel-viewport"><div class="carousel-track" id="track-dctheodoro"></div></div>
                 </div>
-
             </div>
-
-            <!-- Coluna Direita: Título Gigante -->
-            <div class="projetos-titulo-container">
+            <div class="projetos-titulo-container revelar-dir">
                 <h2 class="titulo-vertical">PROJETOS</h2>
             </div>
-
         </div>
     </section>
 
-    <!-- SEÇÃO: SERVIÇOS -->
     <section class="servicos-section" id="servicos">
         <div class="servicos-conteudo">
-            
-            <!-- Grelha de Serviços -->
             <div class="servicos-grid">
-                
-                <div class="servico-item">
-                    <div class="servico-icone">
-                        <img src="/src/redes_sociais.svg" alt="Ícone Redes Sociais">
-                    </div>
+                <div class="servico-item revelar">
+                    <div class="servico-icone"><img src="/src/redes_sociais.svg" alt="Ícone Redes Sociais" loading="lazy"></div>
                     <p>Gerenciamento<br>de Redes Sociais</p>
                 </div>
-
-                <div class="servico-item">
-                    <div class="servico-icone">
-                        <img src="/src/leads.svg" alt="Ícone Leads">
-                    </div>
+                <div class="servico-item revelar">
+                    <div class="servico-icone"><img src="/src/leads.svg" alt="Ícone Leads" loading="lazy"></div>
                     <p>Captação<br>de Leads</p>
                 </div>
-
-                <div class="servico-item">
-                    <div class="servico-icone">
-                        <img src="/src/video.svg" alt="Ícone Vídeo">
-                    </div>
+                <div class="servico-item revelar">
+                    <div class="servico-icone"><img src="/src/video.svg" alt="Ícone Vídeo" loading="lazy"></div>
                     <p>Captação<br>de vídeo</p>
                 </div>
-
-                <div class="servico-item">
-                    <div class="servico-icone">
-                        <img src="/src/fotos.svg" alt="Ícone Fotos">
-                    </div>
+                <div class="servico-item revelar">
+                    <div class="servico-icone"><img src="/src/fotos.svg" alt="Ícone Fotos" loading="lazy"></div>
                     <p>Captação<br>de Fotos</p>
                 </div>
-
-                <div class="servico-item">
-                    <div class="servico-icone">
-                        <img src="/src/logoicon.svg" alt="Ícone Logomarca">
-                    </div>
+                <div class="servico-item revelar">
+                    <div class="servico-icone"><img src="/src/logoicon.svg" alt="Ícone Logomarca" loading="lazy"></div>
                     <p>Criação de<br>Logomarca</p>
                 </div>
-
-                <div class="servico-item">
-                    <div class="servico-icone">
-                        <img src="/src/site.svg" alt="Ícone Site">
-                    </div>
+                <div class="servico-item revelar">
+                    <div class="servico-icone"><img src="/src/site.svg" alt="Ícone Site" loading="lazy"></div>
                     <p>Criação de Site</p>
                 </div>
-
-                <div class="servico-item">
-                    <div class="servico-icone">
-                        <img src="/src/posts.svg" alt="Ícone Posts">
-                    </div>
+                <div class="servico-item revelar">
+                    <div class="servico-icone"><img src="/src/posts.svg" alt="Ícone Posts" loading="lazy"></div>
                     <p>Posts Avulsos</p>
                 </div>
-
-                <div class="servico-item">
-                    <div class="servico-icone">
-                        <img src="/src/edivideos.svg" alt="Ícone Edição">
-                    </div>
+                <div class="servico-item revelar">
+                    <div class="servico-icone"><img src="/src/edivideos.svg" alt="Ícone Edição" loading="lazy"></div>
                     <p>Edição de vídeos</p>
                 </div>
-
             </div>
-
-            <!-- Título Lateral Branco -->
-            <div class="projetos-titulo-container">
+            <div class="projetos-titulo-container revelar-dir">
                 <h2 class="titulo-vertical-branco">SERVIÇOS</h2>
             </div>
-
         </div>
     </section>
 
-    <!-- NOVA SEÇÃO: DEPOIMENTOS -->
     <section class="depoimentos-section" id="depoimentos">
         <div class="depoimentos-conteudo">
             
-            <!-- Cartão do Depoimento -->
-            <div class="depoimentos-card-container">
-                <div class="depoimento-card">
+            <div class="depoimentos-coluna-form revelar-esq">
+                <div class="form-depoimento">
+                    <h3>Deixe seu Feedback</h3>
                     
-                    <div class="depoimento-foto">
-                        <!-- Coloque o caminho correto da foto da Flávia aqui -->
-                        <img src="src/foto_flavia.jpg" alt="Foto Flávia">
+                    <input type="text" id="feedback-nome" placeholder="Seu Nome ou Empresa">
+                    
+                    <div class="input-estrelas-container" id="feedback-estrelas">
+                        <span data-valor="1">★</span>
+                        <span data-valor="2">★</span>
+                        <span data-valor="3">★</span>
+                        <span data-valor="4">★</span>
+                        <span data-valor="5">★</span>
                     </div>
+
+                    <textarea id="feedback-texto" placeholder="Conte-nos como foi sua experiência com a NOpe Design..."></textarea>
                     
-                    <div class="depoimento-nome">FLÁVIA</div>
-                    
-                    <div class="depoimento-estrelas">
-                        ★★★★★
-                    </div>
-                    
-                    <p class="depoimento-texto">Adorei a experiência!</p>
-                    
+                    <button onclick="enviarFeedback()">Enviar Depoimento</button>
                 </div>
             </div>
+
+            <div class="depoimentos-coluna-carrossel revelar-dir" id="lista-cards-depoimentos">
+                
+                <div class="depoimento-card">
+                    <div class="depoimento-foto">
+                        <img src="src/foto_flavia.jpg" alt="Foto Flávia" loading="lazy">
+                    </div>
+                    <div class="depoimento-nome">FLÁVIA</div>
+                    <div class="depoimento-estrelas">★★★★★</div>
+                    <p class="depoimento-texto">Adorei a experiência!</p>
+                </div>
+
+                <div class="depoimento-card">
+                    <div class="depoimento-foto sem-foto">B</div>
+                    <div class="depoimento-nome">Brand Seguros</div>
+                    <div class="depoimento-estrelas">★★★★★</div>
+                    <p class="depoimento-texto">Trabalho impecável, nosso site ficou muito melhor do que imaginávamos. Suporte excelente.</p>
+                </div>
+
+                <div class="depoimento-card">
+                    <div class="depoimento-foto sem-foto">D</div>
+                    <div class="depoimento-nome">DC Teodoro</div>
+                    <div class="depoimento-estrelas">★★★★★</div>
+                    <p class="depoimento-texto">As landing pages geraram um ótimo volume de leads. Muito criativa e rápida na entrega.</p>
+                </div>
+                
+            </div>
             
-            <!-- Título Lateral Escuro -->
-            <div class="projetos-titulo-container">
+            <div class="projetos-titulo-container revelar-dir">
                 <h2 class="titulo-vertical-escuro">DEPOIMENTOS</h2>
             </div>
 
         </div>
     </section>
 
+    <footer class="site-footer">
+        <div class="footer-conteudo revelar">
+            <div class="footer-coluna footer-logo-container">
+                <img src="src/logofinal.svg" alt="NOpe Design" class="footer-logo" loading="lazy">
+                <div class="sociais-icons">
+                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.538 0-.65.221-.65.778v1.222h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-2.308c0-1.769.931-2.692 3.029-2.692h1.971v3z"/></svg>
+                </div>
+            </div>
+
+            <div class="footer-coluna contatos">
+                <h4>Contatos:</h4>
+                <p>(11) 972527752</p>
+                <p>(11) 955304251</p>
+            </div>
+
+            <div class="footer-coluna menu-rodape">
+                <h4>Menu:</h4>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#quem-somos">Quem Somos</a></li>
+                    <li><a href="#projetos">Projeto</a></li>
+                    <li><a href="#servicos">Serviço</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-mapa">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117066.01254308529!2d-46.54924775!3d-23.4130454!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce89476b7bd4b5%3A0x6b6df1e155bc8f55!2sGuarulhos%2C%20SP!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <div class="footer-barra-azul"></div>
+    </footer>
+
     <script>
+        // ==========================================
+        // ANIMAÇÕES AO ROLAR A PÁGINA (SCROLL REVEAL)
+        // ==========================================
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 // Dispara quando 15% do elemento estiver visível
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('ativo');
+                    observer.unobserve(entry.target); // Para de observar depois de animar
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.revelar, .revelar-esq, .revelar-dir').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ==========================================
+        // MENU MOBILE
+        // ==========================================
         function toggleMenu() {
             const menu = document.getElementById('menu-principal');
             menu.classList.toggle('ativo');
         }
 
         // ==========================================
-        // GERADOR DE CARROSSEL ALEATÓRIO OTIMIZADO
+        // CARROSSEL DE LOGOS
         // ==========================================
         function carregarCarrosselAleatorio(idElemento, caminhoPasta, totalImagensNaPasta) {
             let track = document.getElementById(idElemento);
             if (!track) return;
 
             let imagensNoCarrossel = 10;
-            if (totalImagensNaPasta < imagensNoCarrossel) {
-                imagensNoCarrossel = totalImagensNaPasta;
-            }
+            if (totalImagensNaPasta < imagensNoCarrossel) imagensNoCarrossel = totalImagensNaPasta;
 
             let numeros = [];
-            for (let i = 1; i <= totalImagensNaPasta; i++) {
-                numeros.push(i);
-            }
+            for (let i = 1; i <= totalImagensNaPasta; i++) numeros.push(i);
 
             numeros.sort(() => Math.random() - 0.5);
-
             const escolhidas = numeros.slice(0, imagensNoCarrossel);
             let imagensHTML = '';
 
@@ -918,19 +1182,113 @@
         }
 
         // ==========================================
-        // INICIAR OS CARROSSEIS
+        // LÓGICA DO FORMULÁRIO DE DEPOIMENTOS
+        // ==========================================
+        let notaSelecionada = 5; 
+        const estrelasInput = document.querySelectorAll('#feedback-estrelas span');
+
+        estrelasInput.forEach(estrela => {
+            estrela.addEventListener('click', function() {
+                notaSelecionada = this.getAttribute('data-valor');
+                atualizarEstrelasVisual();
+            });
+        });
+
+        function atualizarEstrelasVisual() {
+            estrelasInput.forEach(estrela => {
+                if(estrela.getAttribute('data-valor') <= notaSelecionada) {
+                    estrela.classList.add('ativa');
+                } else {
+                    estrela.classList.remove('ativa');
+                }
+            });
+        }
+        atualizarEstrelasVisual();
+
+        async function enviarFeedback() {
+            const nomeInput = document.getElementById('feedback-nome');
+            const textoInput = document.getElementById('feedback-texto');
+            
+            const nome = nomeInput.value.trim();
+            const texto = textoInput.value.trim();
+
+            if(!nome || !texto) {
+                alert("Por favor, preencha seu nome e o seu depoimento.");
+                return;
+            }
+
+            const container = document.getElementById('lista-cards-depoimentos');
+            const novoCard = document.createElement('div');
+            novoCard.className = 'depoimento-card';
+            
+            const letraInicial = nome.charAt(0).toUpperCase();
+
+            let htmlEstrelasCard = '';
+            for(let i = 0; i < 5; i++) {
+                htmlEstrelasCard += (i < notaSelecionada) ? '★' : '☆';
+            }
+
+            novoCard.innerHTML = `
+                <div class="depoimento-foto sem-foto">${letraInicial}</div>
+                <div class="depoimento-nome">${nome}</div>
+                <div class="depoimento-estrelas">${htmlEstrelasCard}</div>
+                <p class="depoimento-texto">${texto}</p>
+            `;
+
+            container.prepend(novoCard);
+            novoCard.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            
+            pararAutoScrollDepoimentos();
+            iniciarAutoScrollDepoimentos();
+
+            nomeInput.value = '';
+            textoInput.value = '';
+            notaSelecionada = 5;
+            atualizarEstrelasVisual();
+            
+            alert("Feedback enviado com sucesso! Muito obrigado.");
+        }
+
+        // ==========================================
+        // AUTO-SCROLL DE DEPOIMENTOS
+        // ==========================================
+        const depoimentosContainer = document.getElementById('lista-cards-depoimentos');
+        let autoScrollInterval;
+
+        function iniciarAutoScrollDepoimentos() {
+            autoScrollInterval = setInterval(() => {
+                if (!depoimentosContainer) return;
+                
+                const maxScrollLeft = depoimentosContainer.scrollWidth - depoimentosContainer.clientWidth;
+                
+                if (depoimentosContainer.scrollLeft >= maxScrollLeft - 10) {
+                    depoimentosContainer.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    depoimentosContainer.scrollBy({ left: 410, behavior: 'smooth' });
+                }
+            }, 3000); 
+        }
+
+        function pararAutoScrollDepoimentos() {
+            clearInterval(autoScrollInterval);
+        }
+
+        if (depoimentosContainer) {
+            depoimentosContainer.addEventListener('mouseenter', pararAutoScrollDepoimentos);
+            depoimentosContainer.addEventListener('mouseleave', iniciarAutoScrollDepoimentos);
+            depoimentosContainer.addEventListener('touchstart', pararAutoScrollDepoimentos);
+            depoimentosContainer.addEventListener('touchend', iniciarAutoScrollDepoimentos);
+        }
+
+        // ==========================================
+        // INICIALIZAÇÃO
         // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // BRAND SEGUROS - 10 imagens
             carregarCarrosselAleatorio('track-brand', 'src/brandseguros', 10);
-            
-            // BV PINHO - 10 imagens
             carregarCarrosselAleatorio('track-bvpinho', 'src/bvpinho', 10); 
-            
-            // DC THEODORO - 10 imagens
             carregarCarrosselAleatorio('track-dctheodoro', 'src/dctheodoro', 10);
-            
+
+            iniciarAutoScrollDepoimentos();
         });
     </script>
 </body>
