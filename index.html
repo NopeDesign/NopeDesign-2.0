@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NOpe Design - Landing Page</title>
     
-    <!-- Pré-carregamento estrito apenas do que aparece no primeiro segundo -->
-    <link rel="preload" href="src/textura_topo.svg" as="image" fetchpriority="high">
-    <link rel="preload" href="src/logo_central.svg" as="image" fetchpriority="high">
-    <link rel="preload" href="src/logo_topo.svg" as="image">
+    <!-- Pré-carregamento estrito em WebP do que aparece no primeiro segundo -->
+    <link rel="preload" href="src/textura_topo.webp" as="image" type="image/webp" fetchpriority="high">
+    <link rel="preload" href="src/logo_central.webp" as="image" type="image/webp" fetchpriority="high">
+    <link rel="preload" href="src/logo_topo.webp" as="image" type="image/webp">
 
     <style>
         /* ==========================================
@@ -118,7 +118,7 @@
             align-items: center;
             padding: 30px 5%;
             min-height: 300px;
-            background-image: url('src/textura_topo.svg'); 
+            background-image: url('src/textura_topo.webp'), url('src/textura_topo.svg'); 
             background-size: cover;
             background-position: center 0%; 
             opacity: 0;
@@ -186,7 +186,7 @@
 
         .btn-orcamento {
             border: none;
-            background-image: url('src/textura_botao.svg');
+            background-image: url('src/textura_botao.webp'), url('src/textura_botao.svg');
             background-color: transparent;
             background-size: 100% auto; 
             background-position: center; 
@@ -522,7 +522,6 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.12);
             transition: transform 0.4s var(--ease-spring), box-shadow 0.4s ease;
             cursor: pointer;
-            /* Efeito skeleton enquanto a arte pesada decodifica */
             background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 50%, #f0f0f0 75%);
             background-size: 200% 100%;
             animation: brilhoShimmer 2s infinite linear;
@@ -1017,7 +1016,7 @@
     <div class="primeira-tela">
         <header id="topo">
             <div class="logo">
-                <img src="src/logo_topo.svg" alt="NOpe Design" decoding="async" fetchpriority="high">
+                <img src="src/logo_topo.webp" onerror="this.onerror=null;this.src='src/logo_topo.svg'" alt="NOpe Design" decoding="async" fetchpriority="high">
             </div>
             <div class="menu-toggle" onclick="toggleMenu()">☰</div>
             <nav id="menu-principal">
@@ -1033,7 +1032,7 @@
 
         <section class="hero-section" id="inicio">
             <div class="logo-container">
-                <img src="src/logo_central.svg" alt="Logo NOPe Design" class="logo-central" decoding="async" fetchpriority="high"> 
+                <img src="src/logo_central.webp" onerror="this.onerror=null;this.src='src/logo_central.svg'" alt="Logo NOPe Design" class="logo-central" decoding="async" fetchpriority="high"> 
             </div>
         </section>
     </div>
@@ -1042,7 +1041,7 @@
         <h2 class="quem-somos-titulo revelar">A Cara da <span class="destaque-titulo">Nope Design</span></h2>
         <div class="quem-somos-conteudo">
             <div class="quem-somos-imagem revelar-esq">
-                <img src="src/luara.svg" alt="Criadora da Nope Design" loading="lazy" decoding="async">
+                <img src="src/luara.webp" onerror="this.onerror=null;this.src='src/luara.svg'" alt="Criadora da Nope Design" loading="lazy" decoding="async">
             </div>
             <div class="quem-somos-texto revelar-dir">
                 <p>A Nope Design é um projeto criado por uma mulher apaixonada por comunicação e marketing digital. Fundada em 2024, a empresa nasceu com o propósito de ajudar pessoas e empresas a se posicionarem melhor no digital. Mesmo sendo recente, já conta com diversos projetos desenvolvidos e segue crescendo com criatividade e estratégia.</p>
@@ -1054,16 +1053,15 @@
         <div class="projetos-conteudo">
             <div class="carrosseis-container">
                 <div class="carousel-row revelar" style="--delay: 0.05s">
-                    <div class="cliente-logo"><img src="src/logo_bvpinho.svg" alt="BV Pinho" loading="lazy" decoding="async"></div>
+                    <div class="cliente-logo"><img src="src/logo_bvpinho.webp" onerror="this.onerror=null;this.src='src/logo_bvpinho.svg'" alt="BV Pinho" loading="lazy" decoding="async"></div>
                     <div class="carousel-viewport"><div class="carousel-track" id="track-bvpinho"></div></div>
                 </div>
                 <div class="carousel-row revelar" style="--delay: 0.15s">
-                    <div class="cliente-logo"><img src="src/logo_brandseguros.svg" alt="Brand Seguros" loading="lazy" decoding="async"></div>
+                    <div class="cliente-logo"><img src="src/logo_brandseguros.webp" onerror="this.onerror=null;this.src='src/logo_brandseguros.svg'" alt="Brand Seguros" loading="lazy" decoding="async"></div>
                     <div class="carousel-viewport"><div class="carousel-track dir-inversa" id="track-brand"></div></div>
                 </div>
                 <div class="carousel-row revelar" style="--delay: 0.25s">
-                    <!-- Nome corrigido de logo_dctheodoro.svg para logo_dcteodoro.svg conforme sua pasta -->
-                    <div class="cliente-logo"><img src="src/logo_dcteodoro.svg" alt="DC Theodoro" loading="lazy" decoding="async"></div>
+                    <div class="cliente-logo"><img src="src/logo_dcteodoro.webp" onerror="this.onerror=null;this.src='src/logo_dcteodoro.svg'" alt="DC Theodoro" loading="lazy" decoding="async"></div>
                     <div class="carousel-viewport"><div class="carousel-track" id="track-dctheodoro"></div></div>
                 </div>
             </div>
@@ -1076,37 +1074,36 @@
     <section class="servicos-section" id="servicos">
         <div class="servicos-conteudo">
             <div class="servicos-grid">
-                <!-- Caminhos corrigidos (sem a barra '/' inicial) e com animação em cascata -->
                 <div class="servico-item revelar-escala" style="--delay: 0.05s">
-                    <div class="servico-icone"><img src="src/redes_sociais.svg" alt="Ícone Redes Sociais" loading="lazy" decoding="async"></div>
+                    <div class="servico-icone"><img src="src/redes_sociais.webp" onerror="this.onerror=null;this.src='src/redes_sociais.svg'" alt="Ícone Redes Sociais" loading="lazy" decoding="async"></div>
                     <p>Gerenciamento<br>de Redes Sociais</p>
                 </div>
                 <div class="servico-item revelar-escala" style="--delay: 0.10s">
-                    <div class="servico-icone"><img src="src/leads.svg" alt="Ícone Leads" loading="lazy" decoding="async"></div>
+                    <div class="servico-icone"><img src="src/leads.webp" onerror="this.onerror=null;this.src='src/leads.svg'" alt="Ícone Leads" loading="lazy" decoding="async"></div>
                     <p>Captação<br>de Leads</p>
                 </div>
                 <div class="servico-item revelar-escala" style="--delay: 0.15s">
-                    <div class="servico-icone"><img src="src/video.svg" alt="Ícone Vídeo" loading="lazy" decoding="async"></div>
+                    <div class="servico-icone"><img src="src/video.webp" onerror="this.onerror=null;this.src='src/video.svg'" alt="Ícone Vídeo" loading="lazy" decoding="async"></div>
                     <p>Captação<br>de vídeo</p>
                 </div>
                 <div class="servico-item revelar-escala" style="--delay: 0.20s">
-                    <div class="servico-icone"><img src="src/fotos.svg" alt="Ícone Fotos" loading="lazy" decoding="async"></div>
+                    <div class="servico-icone"><img src="src/fotos.webp" onerror="this.onerror=null;this.src='src/fotos.svg'" alt="Ícone Fotos" loading="lazy" decoding="async"></div>
                     <p>Captação<br>de Fotos</p>
                 </div>
                 <div class="servico-item revelar-escala" style="--delay: 0.25s">
-                    <div class="servico-icone"><img src="src/logoicon.svg" alt="Ícone Logomarca" loading="lazy" decoding="async"></div>
+                    <div class="servico-icone"><img src="src/logoicon.webp" onerror="this.onerror=null;this.src='src/logoicon.svg'" alt="Ícone Logomarca" loading="lazy" decoding="async"></div>
                     <p>Criação de<br>Logomarca</p>
                 </div>
                 <div class="servico-item revelar-escala" style="--delay: 0.30s">
-                    <div class="servico-icone"><img src="src/site.svg" alt="Ícone Site" loading="lazy" decoding="async"></div>
+                    <div class="servico-icone"><img src="src/site.webp" onerror="this.onerror=null;this.src='src/site.svg'" alt="Ícone Site" loading="lazy" decoding="async"></div>
                     <p>Criação de Site</p>
                 </div>
                 <div class="servico-item revelar-escala" style="--delay: 0.35s">
-                    <div class="servico-icone"><img src="src/posts.svg" alt="Ícone Posts" loading="lazy" decoding="async"></div>
+                    <div class="servico-icone"><img src="src/posts.webp" onerror="this.onerror=null;this.src='src/posts.svg'" alt="Ícone Posts" loading="lazy" decoding="async"></div>
                     <p>Posts Avulsos</p>
                 </div>
                 <div class="servico-item revelar-escala" style="--delay: 0.40s">
-                    <div class="servico-icone"><img src="src/edivideos.svg" alt="Ícone Edição" loading="lazy" decoding="async"></div>
+                    <div class="servico-icone"><img src="src/edivideos.webp" onerror="this.onerror=null;this.src='src/edivideos.svg'" alt="Ícone Edição" loading="lazy" decoding="async"></div>
                     <p>Edição de vídeos</p>
                 </div>
             </div>
@@ -1143,7 +1140,7 @@
                 
                 <div class="depoimento-card">
                     <div class="depoimento-foto">
-                        <img src="src/foto_flavia.jpg" alt="Foto Flávia" loading="lazy" decoding="async" onerror="this.parentElement.classList.add('sem-foto'); this.parentElement.innerHTML='F';">
+                        <img src="src/foto_flavia.webp" alt="Foto Flávia" loading="lazy" decoding="async" onerror="if(this.src.endsWith('.webp')){this.src='src/foto_flavia.jpg'}else{this.parentElement.classList.add('sem-foto');this.parentElement.innerHTML='F';}">
                     </div>
                     <div class="depoimento-nome">FLÁVIA</div>
                     <div class="depoimento-estrelas">★★★★★</div>
@@ -1176,7 +1173,7 @@
     <footer class="site-footer">
         <div class="footer-conteudo revelar">
             <div class="footer-coluna footer-logo-container">
-                <img src="src/logofinal.svg" alt="NOpe Design" class="footer-logo" loading="lazy" decoding="async">
+                <img src="src/logofinal.webp" onerror="this.onerror=null;this.src='src/logofinal.svg'" alt="NOpe Design" class="footer-logo" loading="lazy" decoding="async">
                 <div class="sociais-icons">
                     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
                     <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
@@ -1240,7 +1237,7 @@
         }
 
         // ==========================================
-        // CARROSSEL SOB DEMANDA (OTIMIZAÇÃO CRÍTICA DE REDE)
+        // CARROSSEL SOB DEMANDA EM WEBP (COM FALLBACK SVG)
         // ==========================================
         function carregarCarrosselAleatorio(idElemento, caminhoPasta, totalImagensNaPasta) {
             const track = document.getElementById(idElemento);
@@ -1257,23 +1254,28 @@
             }
 
             const escolhidas = numeros.slice(0, imagensNoCarrossel);
-            const listaDuplicada = [...escolhidas, ...escolhidas]; // Duplica para loop infinito perfeito
+            const listaDuplicada = [...escolhidas, ...escolhidas];
 
             const fragment = document.createDocumentFragment();
             listaDuplicada.forEach(num => {
                 const img = document.createElement('img');
-                img.src = `${caminhoPasta}/${num}.svg`;
+                img.src = `${caminhoPasta}/${num}.webp`;
                 img.alt = `Arte ${num}`;
                 img.decoding = 'async';
                 img.loading = 'lazy';
                 img.onload = () => img.classList.add('carregada');
+                // Se não achar o .webp na pasta, tenta carregar o .svg automaticamente
+                img.onerror = function() {
+                    this.onerror = null;
+                    this.src = `${caminhoPasta}/${num}.svg`;
+                };
                 fragment.appendChild(img);
             });
 
             track.appendChild(fragment);
         }
 
-        // Só baixa as 30 artes dos carrosseis quando o usuário se aproximar da seção Projetos
+        // Só baixa as artes dos carrosseis quando o usuário se aproximar da seção Projetos
         const secaoProjetos = document.getElementById('projetos');
         const observerProjetos = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
@@ -1284,7 +1286,7 @@
                     obs.disconnect();
                 }
             });
-        }, { rootMargin: '350px 0px' }); // Inicia o download 350px antes de chegar na seção
+        }, { rootMargin: '350px 0px' });
 
         if (secaoProjetos) {
             observerProjetos.observe(secaoProjetos);
